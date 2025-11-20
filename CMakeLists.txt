@@ -1,33 +1,17 @@
 cmake_minimum_required(VERSION 3.24)
 
 set(CMAKE_TOOLCHAIN_FILE ${CMAKE_SOURCE_DIR}/project/ARMCC.cmake)
-include(${CMAKE_SOURCE_DIR}/project/Toolchain.cmake)
+include(${CMAKE_SOURCE_DIR}/project/Global.cmake)
 set_toolchain()
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-project(ms C)
-
-if (WIN32)
-    set(LOCALE_FLAG --locale=japanese)
-else()
-    set(LOCALE_FLAG --locale=ja_JP.SJIS)
-endif()
+project(libms C)
 
 __compiler_armcc(C)
 
-
 file(GLOB_RECURSE SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.c)
 
-add_library(ms ${SOURCES})
+add_library(libms ${SOURCES})
 
-target_include_directories(ms PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
-
-target_compile_options(ms PUBLIC
-    --apcs=//interwork --arm
-    --cpu=MPCore --fpmode=fast -Otime
-    --data-reorder --split_sections
-    --multibyte-chars --signed_chars
-    ${LOCALE_FLAG}
-)
-target_compile_options(ms PUBLIC $<$<COMPILE_LANGUAGE:C>:--c99>)
+target_include_directories(libms PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)

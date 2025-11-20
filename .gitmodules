@@ -1,4 +1,4 @@
-[submodule "lib/ms"]
+[submodule "addins/libms"]
 	branch = main
 	update = merge
 [submodule "project"]
